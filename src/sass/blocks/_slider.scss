@@ -1,0 +1,30 @@
+.slider {
+    min-height: 742px;
+    padding: 108px 0 107px 0;
+    transition: all 3s;
+    &__wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &__slide {
+        animation-name: fade;
+        animation-duration: 1.5s;
+        img {
+            height: 580px;
+            width: 750px;
+        }
+    }
+    &__control-next, &__control-prev {
+        cursor: pointer;
+    }
+}
+
+@keyframes fade {
+    from {
+        opacity: 0.4
+    }
+    to {
+        opacity: 1
+    }
+}
