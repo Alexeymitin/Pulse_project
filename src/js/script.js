@@ -1,5 +1,7 @@
 //Slider
 document.addEventListener("DOMContentLoaded", () => {
+    //Slider
+
     const slides = document.querySelectorAll(".slider__slide"),
         prev = document.querySelector(".slider__control-prev"),
         next = document.querySelector(".slider__control-next");
@@ -35,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     next.addEventListener("click", () => plusSlides(1));
 
-    //tabs
+    //Tabs
 
     const tabs = document.querySelectorAll(".catalogue__tab"),
         tabsContent = document.querySelectorAll(".catalogue__content"),
@@ -63,21 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    //Toggle slide
+    //Toggle item content
 
     const itemContent = document.querySelectorAll(".catalogue-item__content"),
         itemContentBack = document.querySelectorAll(".catalogue-item__list"),
         linkMore = document.querySelectorAll(".catalogue-item__link"),
         linkBack = document.querySelectorAll(".catalogue-item__back");
-
-    // function toggleClass(n) {
-    //     itemContent.forEach(() => {
-    //         itemContent[n].classList.toggle("catalogue-item__content_active");
-    //     });
-    //     itemContentBack.forEach(() => {
-    //         itemContentBack[n].classList.toggle("catalogue-item__list_active");
-    //     });
-    // }
 
     function toggleClass(item, grade, n) {
         item[n].classList.toggle(`${grade}`);
@@ -95,4 +88,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
     changeContent(linkMore);
     changeContent(linkBack);
+
+    //Modal
+
+    const buttonsConsult = document.querySelectorAll('[data-modal="consult"]'),
+        button = document.querySelector('[data-modal="thanks"]'),
+        buttonsCatalogue = document.querySelectorAll(".button_catalogue"),
+        overlay = document.querySelector(".overlay"),
+        modalConsult = document.querySelector("#consult"),
+        modalOrder = document.querySelector("#order"),
+        modalThanks = document.querySelector("#thanks"),
+        close = document.querySelectorAll(".modal__close");
+
+    buttonsConsult.forEach((e) => {
+        e.addEventListener("click", () => {
+            overlay.classList.add("active", "fade");
+            modalConsult.classList.add("active", "fade");
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    button.addEventListener("click", (e) => {
+        e.preventDefault();
+        overlay.classList.add("active", "fade");
+        modalThanks.classList.add("active", "fade");
+    });
+
+    buttonsCatalogue.forEach((e) => {
+        e.addEventListener("click", () => {
+            overlay.classList.add("active", "fade");
+            modalOrder.classList.add("active", "fade");
+        });
+    });
+
+    function closeModal() {
+        overlay.classList.remove("active", "fade");
+        modalConsult.classList.remove("active", "fade");
+        modalOrder.classList.remove("active", "fade");
+        modalThanks.classList.remove("active", "fade");
+        document.body.style.overflow = ''
+    }
+
+    overlay.addEventListener("click", (e) => {
+        if (e.target == overlay || e.target.classList.contains('modal__close')) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (
+            (e.code === "Escape" &&
+                modalConsult.classList.contains("active")) ||
+            modalOrder.classList.contains("active") ||
+            modalThanks.classList.contains("active")
+        ) {
+            closeModal();
+        }
+    });
+    // overlay.addEventListener("click", (e) => {
+    //     if (e.target == overlay || e.target === close) {
+    //         closeModal();
+    //     }
+    // });
+
+    // close.forEach((e) => {
+    //     e.addEventListener("click", closeModal);
+    // });
 });
