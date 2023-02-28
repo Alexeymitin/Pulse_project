@@ -40,8 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //Tabs
 
     const tabs = document.querySelectorAll(".catalogue__tab"),
-        tabsContent = document.querySelectorAll(".catalogue__content"),
-        tabsParent = document.querySelector(".catalogue__tabs");
+        tabsContent = document.querySelectorAll(".catalogue__content");
 
     function hideTabContent() {
         tabs.forEach((e) => e.classList.remove("catalogue__tab_active"));
@@ -91,62 +90,75 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //Modal
 
-    const buttonsConsult = document.querySelectorAll('[data-modal="consult"]'),
-        button = document.querySelector('[data-modal="thanks"]'),
-        buttonsCatalogue = document.querySelectorAll(".button_catalogue"),
-        overlay = document.querySelector(".overlay"),
-        modalConsult = document.querySelector("#consult"),
-        modalOrder = document.querySelector("#order"),
-        modalThanks = document.querySelector("#thanks"),
-        close = document.querySelectorAll(".modal__close");
+    // const buttonsConsult = document.querySelectorAll('[data-modal="consult"]'),
+    //     buttonThanks = document.querySelector('[data-modal="thanks"]'),
+    //     buttonsCatalogue = document.querySelectorAll(".button_catalogue"),
+    //     overlay = document.querySelector(".overlay"),
+    //     modalConsult = document.querySelector("#consult"),
+    //     modalOrder = document.querySelector("#order"),
+    //     modalThanks = document.querySelector("#thanks"),
+    //     close = document.querySelectorAll(".modal__close"),
+    //     inputs = document.querySelectorAll("input"),
+    //     forms = document.querySelectorAll("form");
 
-    buttonsConsult.forEach((e) => {
-        e.addEventListener("click", () => {
-            overlay.classList.add("active", "fade");
-            modalConsult.classList.add("active", "fade");
-            document.body.style.overflow = 'hidden';
-        });
-    });
+    // forms.forEach((form) => {
+    //     form.addEventListener("submit", (e) => {
+    //         e.preventDefault();
 
-    button.addEventListener("click", (e) => {
-        e.preventDefault();
-        overlay.classList.add("active", "fade");
-        modalThanks.classList.add("active", "fade");
-    });
+    //         let statusMessage = document.createElement("div");
+    //         statusMessage.classList.add("status");
+    //         form.appendChild(statusMessage);
 
-    buttonsCatalogue.forEach((e) => {
-        e.addEventListener("click", () => {
-            overlay.classList.add("active", "fade");
-            modalOrder.classList.add("active", "fade");
-        });
-    });
+    //         const formData = new FormData(item);
+    //     });
+    // });
 
-    function closeModal() {
-        overlay.classList.remove("active", "fade");
-        modalConsult.classList.remove("active", "fade");
-        modalOrder.classList.remove("active", "fade");
-        modalThanks.classList.remove("active", "fade");
-        document.body.style.overflow = ''
-    }
+    // function openModal(modal) {
+    //     modal.classList.add("active", "fade");
+    //     overlay.classList.add("active", "fade");
+    //     document.body.style.overflow = "hidden";
+    // }
 
-    overlay.addEventListener("click", (e) => {
-        if (e.target == overlay || e.target.classList.contains('modal__close')) {
-            closeModal();
-        }
-    });
+    // function closeModal() {
+    //     modalConsult.classList.remove("active", "fade");
+    //     modalOrder.classList.remove("active", "fade");
+    //     modalThanks.classList.remove("active", "fade");
+    //     overlay.classList.remove("active", "fade");
+    //     document.body.style.overflow = "";
+    // }
 
-    document.addEventListener("keydown", (e) => {
-        if (
-            (e.code === "Escape" &&
-                modalConsult.classList.contains("active")) ||
-            modalOrder.classList.contains("active") ||
-            modalThanks.classList.contains("active")
-        ) {
-            closeModal();
-        }
-    });
+    // buttonsConsult.forEach((e) => {
+    //     e.addEventListener("click", () => {
+    //         openModal(modalConsult);
+    //     });
+    // });
+
+    // buttonThanks.addEventListener("click", (event) => {
+    //     event.preventDefault();
+    //     openModal(modalThanks);
+    // });
+
+    // buttonsCatalogue.forEach((button, i) => {
+    //     button.addEventListener("click", (event) => {
+    //         const modalDescr = modalOrder.querySelector(".modal__descr"),
+    //             target = event.target,
+    //             subtitle = document.querySelectorAll(
+    //                 ".catalogue-item__subtitle"
+    //             );
+    //         if (target === button) {
+    //             subtitle.forEach(() => {
+    //                 modalDescr.textContent = `${subtitle[i].textContent}`;
+    //             });
+    //         }
+    //         openModal(modalOrder);
+    //     });
+    // });
+
     // overlay.addEventListener("click", (e) => {
-    //     if (e.target == overlay || e.target === close) {
+    //     if (
+    //         e.target == overlay ||
+    //         e.target.classList.contains("modal__close")
+    //     ) {
     //         closeModal();
     //     }
     // });
@@ -154,4 +166,76 @@ document.addEventListener("DOMContentLoaded", () => {
     // close.forEach((e) => {
     //     e.addEventListener("click", closeModal);
     // });
+
+    // document.addEventListener("keydown", (e) => {
+    //     if (
+    //         (e.code === "Escape" &&
+    //             modalConsult.classList.contains("active")) ||
+    //         modalOrder.classList.contains("active") ||
+    //         modalThanks.classList.contains("active")
+    //     ) {
+    //         closeModal();
+    //     }
+    // });
+
+    function bindModal(triggerSelector, modalSelector, closeSelector) {
+        const trigger = document.querySelectorAll(triggerSelector),
+            modal = document.querySelector(modalSelector),
+            close = document.querySelector(closeSelector),
+            overlay = document.querySelector(".overlay");
+
+        function closeModal() {
+            modal.classList.remove("active", "fade");
+            overlay.classList.remove("active", "fade");
+            document.body.style.overflow = "";
+        }
+
+        function openModal() {
+            modal.classList.add("active", "fade");
+            overlay.classList.add("active", "fade");
+            document.body.style.overflow = "hidden";
+        }
+
+        trigger.forEach((item) => {
+            item.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                openModal();
+            });
+        });
+
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay || e.target === close) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.code === "Escape" && modal.classList.contains("active")) {
+                closeModal();
+            }
+        });
+
+        if (triggerSelector == ".button_catalogue") {
+            trigger.forEach((button, i) => {
+                button.addEventListener("click", (event) => {
+                    const modalDescr = modal.querySelector(".modal__descr"),
+                        target = event.target,
+                        subtitle = document.querySelectorAll(
+                            ".catalogue-item__subtitle"
+                        );
+                    if (target === button) {
+                        subtitle.forEach(() => {
+                            modalDescr.textContent = `${subtitle[i].textContent}`;
+                        });
+                    }
+                    openModal();
+                });
+            });
+        }
+    }
+
+    bindModal('[data-modal="consult"]', "#consult", "#consult .modal__close");
+    bindModal('[data-modal="thanks"]', "#thanks", "#thanks .modal__close");
+    bindModal(".button_catalogue", "#order", "#order .modal__close");
 });
