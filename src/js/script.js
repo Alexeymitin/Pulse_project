@@ -252,4 +252,20 @@ document.addEventListener("DOMContentLoaded", () => {
         item.addEventListener("input", onPhoneInput);
         item.addEventListener("keydown", onPhoneKeyDown);
     });
+
+    // window.addEventListener('scroll', () => {
+    //     let scrollTop = body.scrollHeigh
+    // })
+
+    const scrollUP = document.querySelector('.pageup')
+
+    window.addEventListener('scroll', () => {
+        let scrollTop = window.scrollY;
+
+        if (scrollTop >= 1600) {
+            scrollUP.classList.add('active', 'fadePageUP');
+        } else {
+            scrollUP.classList.remove('active', 'fadePageUP');
+        }
+    })
 });
