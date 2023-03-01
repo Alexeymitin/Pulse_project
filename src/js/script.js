@@ -1,4 +1,3 @@
-//Slider
 document.addEventListener("DOMContentLoaded", () => {
     //Slider
 
@@ -88,131 +87,85 @@ document.addEventListener("DOMContentLoaded", () => {
     changeContent(linkMore);
     changeContent(linkBack);
 
-    //Modal
-
-    // const buttonsConsult = document.querySelectorAll('[data-modal="consult"]'),
-    //     buttonThanks = document.querySelector('[data-modal="thanks"]'),
-    //     buttonsCatalogue = document.querySelectorAll(".button_catalogue"),
-    //     overlay = document.querySelector(".overlay"),
-    //     modalConsult = document.querySelector("#consult"),
-    //     modalOrder = document.querySelector("#order"),
-    //     modalThanks = document.querySelector("#thanks"),
-    //     close = document.querySelectorAll(".modal__close"),
-    //     inputs = document.querySelectorAll("input"),
-    //     forms = document.querySelectorAll("form");
-
-    // forms.forEach((form) => {
-    //     form.addEventListener("submit", (e) => {
-    //         e.preventDefault();
-
-    //         let statusMessage = document.createElement("div");
-    //         statusMessage.classList.add("status");
-    //         form.appendChild(statusMessage);
-
-    //         const formData = new FormData(item);
-    //     });
-    // });
-
-    // function openModal(modal) {
-    //     modal.classList.add("active", "fade");
-    //     overlay.classList.add("active", "fade");
-    //     document.body.style.overflow = "hidden";
-    // }
-
-    // function closeModal() {
-    //     modalConsult.classList.remove("active", "fade");
-    //     modalOrder.classList.remove("active", "fade");
-    //     modalThanks.classList.remove("active", "fade");
-    //     overlay.classList.remove("active", "fade");
-    //     document.body.style.overflow = "";
-    // }
-
-    // buttonsConsult.forEach((e) => {
-    //     e.addEventListener("click", () => {
-    //         openModal(modalConsult);
-    //     });
-    // });
-
-    // buttonThanks.addEventListener("click", (event) => {
-    //     event.preventDefault();
-    //     openModal(modalThanks);
-    // });
-
-    // buttonsCatalogue.forEach((button, i) => {
-    //     button.addEventListener("click", (event) => {
-    //         const modalDescr = modalOrder.querySelector(".modal__descr"),
-    //             target = event.target,
-    //             subtitle = document.querySelectorAll(
-    //                 ".catalogue-item__subtitle"
-    //             );
-    //         if (target === button) {
-    //             subtitle.forEach(() => {
-    //                 modalDescr.textContent = `${subtitle[i].textContent}`;
-    //             });
-    //         }
-    //         openModal(modalOrder);
-    //     });
-    // });
-
-    // overlay.addEventListener("click", (e) => {
-    //     if (
-    //         e.target == overlay ||
-    //         e.target.classList.contains("modal__close")
-    //     ) {
-    //         closeModal();
-    //     }
-    // });
-
-    // close.forEach((e) => {
-    //     e.addEventListener("click", closeModal);
-    // });
-
-    // document.addEventListener("keydown", (e) => {
-    //     if (
-    //         (e.code === "Escape" &&
-    //             modalConsult.classList.contains("active")) ||
-    //         modalOrder.classList.contains("active") ||
-    //         modalThanks.classList.contains("active")
-    //     ) {
-    //         closeModal();
-    //     }
-    // });
-
-    function bindModal(triggerSelector, modalSelector, closeSelector) {
+    function bindModal(
+        triggerSelector,
+        modalSelector,
+        closeSelector = ".modal .modal__close",
+        formsSelector = "form",
+        // triggerInModalSelector = ".modal .button",
+        overlaySelector = ".overlay"
+    ) {
         const trigger = document.querySelectorAll(triggerSelector),
             modal = document.querySelector(modalSelector),
-            close = document.querySelector(closeSelector),
-            overlay = document.querySelector(".overlay");
+            close = document.querySelectorAll(closeSelector),
+            // triggerInModal = document.querySelectorAll(triggerInModalSelector),
+            forms = document.querySelectorAll(formsSelector),
+            overlay = document.querySelector(overlaySelector);
 
-        function closeModal() {
-            modal.classList.remove("active", "fade");
+        function closeModal(modalWindowForOpen) {
+            modalWindowForOpen.classList.remove("active", "fade");
             overlay.classList.remove("active", "fade");
             document.body.style.overflow = "";
         }
 
-        function openModal() {
-            modal.classList.add("active", "fade");
+        function openModal(modalWindowForClose) {
+            modalWindowForClose.classList.add("active", "fade");
             overlay.classList.add("active", "fade");
             document.body.style.overflow = "hidden";
         }
 
         trigger.forEach((item) => {
             item.addEventListener("click", (e) => {
-                e.preventDefault();
-
-                openModal();
+                if (
+                    triggerSelector === 'consult_form button' ||
+                    triggerSelector === ".modal .button"
+                ) {
+                    forms.forEach((it) => {
+                        it.addEventListener("submit", (e) => {
+                            e.preventDefault();
+                            setTimeout(() => {
+                                openModal(document.querySelector("#thanks"));
+                            });
+                            closeModal(document.querySelector("#consult"));
+                            closeModal(document.querySelector("#order"));
+                        });
+                    });
+                } else {
+                    openModal(modal);
+                }
             });
         });
 
+        // trigger.forEach((item) => {
+        //     item.addEventListener("click", (e) => {
+
+        //         openModal();
+        //     });
+        // });
+
+        // triggerInModal.forEach((item) => {
+        //     item.addEventListener("submit", () => {
+        //         if (modalSelector == "#consult" || modalSelector == "#order" ) {
+        //             closeModal();
+        //         }
+        //     });
+        // });
+
         overlay.addEventListener("click", (e) => {
-            if (e.target === overlay || e.target === close) {
-                closeModal();
+            const target = e.target;
+            if (target === overlay) {
+                closeModal(modal);
             }
+            close.forEach((item) => {
+                if (target === item) {
+                    closeModal(modal);
+                }
+            });
         });
 
         document.addEventListener("keydown", (e) => {
             if (e.code === "Escape" && modal.classList.contains("active")) {
-                closeModal();
+                closeModal(modal);
             }
         });
 
@@ -234,9 +187,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    bindModal('[data-modal="consult"]', "#consult", "#consult .modal__close");
-    bindModal('[data-modal="thanks"]', "#thanks", "#thanks .modal__close");
-    bindModal(".button_catalogue", "#order", "#order .modal__close");
+    bindModal('[data-modal="consult"]', "#consult");
+    bindModal('consult_form button', "#thanks");
+    bindModal(".button_catalogue", "#order");
+    bindModal(".modal .button", "#thanks");
+
+    //Mask for russian phone
 
     const phoneInputs = document.querySelectorAll('input[name="phone"]');
 
