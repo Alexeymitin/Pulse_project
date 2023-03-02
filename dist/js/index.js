@@ -87,6 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
     changeContent(linkMore);
     changeContent(linkBack);
 
+    //Modal windows
+    
     function bindModal(
         triggerSelector,
         modalSelector,
@@ -102,14 +104,14 @@ document.addEventListener("DOMContentLoaded", () => {
             forms = document.querySelectorAll(formsSelector),
             overlay = document.querySelector(overlaySelector);
 
-        function closeModal(modalWindowForOpen) {
-            modalWindowForOpen.classList.remove("active", "fade");
+        function closeModal(modalWindowForClose) {
+            modalWindowForClose.classList.remove("active", "fade");
             overlay.classList.remove("active", "fade");
             document.body.style.overflow = "";
         }
 
-        function openModal(modalWindowForClose) {
-            modalWindowForClose.classList.add("active", "fade");
+        function openModal(modalWindowForOpen) {
+            modalWindowForOpen.classList.add("active", "fade");
             overlay.classList.add("active", "fade");
             document.body.style.overflow = "hidden";
         }
@@ -118,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             item.addEventListener("click", (e) => {
                 if (
                     triggerSelector === 'consult_form button' ||
-                    triggerSelector === ".modal .button"
+                    triggerSelector === '[data-modal="thanks"]'
                 ) {
                     forms.forEach((it) => {
                         it.addEventListener("submit", (e) => {
@@ -189,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bindModal('[data-modal="consult"]', "#consult");
     bindModal('consult_form button', "#thanks");
-    bindModal(".button_catalogue", "#order");
+    bindModal('[data-modal="thanks"]', "#order");
     bindModal(".modal .button", "#thanks");
 
     //Mask for russian phone

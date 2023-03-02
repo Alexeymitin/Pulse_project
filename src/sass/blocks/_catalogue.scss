@@ -93,6 +93,7 @@
             color: $main-color;
             margin-top: 17px;
             text-transform: uppercase;
+            cursor: pointer;
 
             &:hover {
                 color: $main-color;
@@ -188,6 +189,7 @@
             font-weight: 500;
             text-decoration: underline;
             text-transform: uppercase;
+            cursor: pointer;
 
             &:hover {
                 color: $main-color;
