@@ -88,19 +88,17 @@ document.addEventListener("DOMContentLoaded", () => {
     changeContent(linkBack);
 
     //Modal windows
-    
+
     function bindModal(
         triggerSelector,
         modalSelector,
         closeSelector = ".modal .modal__close",
         formsSelector = "form",
-        // triggerInModalSelector = ".modal .button",
         overlaySelector = ".overlay"
     ) {
         const trigger = document.querySelectorAll(triggerSelector),
             modal = document.querySelector(modalSelector),
             close = document.querySelectorAll(closeSelector),
-            // triggerInModal = document.querySelectorAll(triggerInModalSelector),
             forms = document.querySelectorAll(formsSelector),
             overlay = document.querySelector(overlaySelector);
 
@@ -119,8 +117,8 @@ document.addEventListener("DOMContentLoaded", () => {
         trigger.forEach((item) => {
             item.addEventListener("click", (e) => {
                 if (
-                    triggerSelector === 'consult_form button' ||
-                    triggerSelector === '[data-modal="thanks"]'
+                    triggerSelector === '[data-modal="thanks"]' ||
+                    triggerSelector === ".modal .button"
                 ) {
                     forms.forEach((it) => {
                         it.addEventListener("submit", (e) => {
@@ -137,21 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         });
-
-        // trigger.forEach((item) => {
-        //     item.addEventListener("click", (e) => {
-
-        //         openModal();
-        //     });
-        // });
-
-        // triggerInModal.forEach((item) => {
-        //     item.addEventListener("submit", () => {
-        //         if (modalSelector == "#consult" || modalSelector == "#order" ) {
-        //             closeModal();
-        //         }
-        //     });
-        // });
 
         overlay.addEventListener("click", (e) => {
             const target = e.target;
@@ -190,8 +173,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     bindModal('[data-modal="consult"]', "#consult");
-    bindModal('consult_form button', "#thanks");
-    bindModal('[data-modal="thanks"]', "#order");
+    bindModal('[data-modal="thanks"]', "#thanks");
+    bindModal('[data-modal="order"]', "#order");
     bindModal(".modal .button", "#thanks");
 
     //Mask for russian phone
@@ -255,19 +238,15 @@ document.addEventListener("DOMContentLoaded", () => {
         item.addEventListener("keydown", onPhoneKeyDown);
     });
 
-    // window.addEventListener('scroll', () => {
-    //     let scrollTop = body.scrollHeigh
-    // })
+    const scrollUP = document.querySelector(".pageup");
 
-    const scrollUP = document.querySelector('.pageup')
-
-    window.addEventListener('scroll', () => {
+    window.addEventListener("scroll", () => {
         let scrollTop = window.scrollY;
 
         if (scrollTop >= 1600) {
-            scrollUP.classList.add('active', 'fadePageUP');
+            scrollUP.classList.add("active", "fadePageUP");
         } else {
-            scrollUP.classList.remove('active', 'fadePageUP');
+            scrollUP.classList.remove("active", "fadePageUP");
         }
-    })
+    });
 });
