@@ -238,6 +238,8 @@ document.addEventListener("DOMContentLoaded", () => {
         item.addEventListener("keydown", onPhoneKeyDown);
     });
 
+    //ScrollUp
+
     const scrollUP = document.querySelector(".pageup");
 
     window.addEventListener("scroll", () => {

@@ -1,6 +1,7 @@
 @import 'libs/bootstrap-reboot.min';
 @import 'libs/fonts';
 @import 'base/variables';
+@import 'base/mixins';
 @import 'base/animations';
 
 * {
@@ -8,7 +9,7 @@
 }
 
 .active {
-	display: block;
+    display: block;
 }
 
 .container {
@@ -47,3 +48,5 @@
 @import 'blocks/footer';
 @import 'blocks/modal';
 @import 'blocks/pageup';
+
+@import 'media/media';

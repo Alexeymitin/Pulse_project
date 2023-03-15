@@ -9,12 +9,13 @@
     }
     &__slide {
         display: none;
+        width: 80%;
         &_active {
             display: block;
         }
         img {
             height: 580px;
-            width: 750px;
+            width: 100%;
         }
     }
     &__control-next, &__control-prev {
